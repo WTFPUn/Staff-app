@@ -30,7 +30,7 @@ class MScreen(ScreenManager):
         self.worksheet =sheet.get_worksheet(0)
         self.check = self.worksheet.cell(6,6).value
         if self.check == "1":
-            notification.notify()
+            notification.notify(title = "Warning",message ="ผู้ใช้ไม้เท้ากำลังเดือดร้อนเข้าไปกดเพื่อดูตำแหน่ง",timeout=5)
             vibrator.vibrate(2)
     def work(self,instance):
         Clock(self.call,10)
