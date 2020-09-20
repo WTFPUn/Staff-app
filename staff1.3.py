@@ -6,6 +6,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
 from kivy.base import runTouchApp
 from kivy.lang import Builder
+from kivy.graphics import Color
 import webbrowser
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
@@ -14,28 +15,43 @@ scope = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 credentials = ServiceAccountCredentials.from_json_keyfile_name('cre.json', scope)
 gc = gspread.authorize(credentials)
 sheet = gc.open_by_url("https://docs.google.com/spreadsheets/d/1cjdOui5vTFHKUdI7oEW6tqim3fM9eerMfFaBxfP0atc/edit#gid=0")
-
-
+from kivy.core.text import LabelBase
+LabelBase.register(name= "angsana",fn_regular="angsana.ttc")
+from kivy.core.window import Window
+from kivy.clock import Clock
+from plyer import notification
+from plyer import vibrator
+bgc = {"normal":[1,.50,.50,1],"3D":[.5, 1,.5,0.7],"mark":[.3,.3,1,1],"feed":[1, .5, 0, 1]}
 class MScreen(ScreenManager):
     def __init__(self, **kwargs):
         super(MScreen, self).__init__(**kwargs)
+    def call(self,instance):
+        
+        self.worksheet =sheet.get_worksheet(0)
+        self.check = self.worksheet.cell(6,6).value
+        if self.check == "1":
+            notification.notify()
+            vibrator.vibrate(2)
+    def work(self,instance):
+        Clock(self.call,10)
+import time
 
 class GPS1Screen(Screen):
     def __init__(self,**kwargs):
         super(GPS1Screen,self).__init__(**kwargs)
         self.Grd = GridLayout()
         self.Grd.cols = 1
-        self.inGrd = GridLayout(size_hint = (.2,None))
+        self.inGrd = GridLayout(size_hint = (1,1.2))
         self.inGrd.rows = 1
         self.ininGrd = GridLayout()
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'Click to 3D menu!')
-        self.btn2 = Button(text = 'Click to Directory menu!')
+        self.btn = Button(text = 'แสดง3D',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["3D"])
+        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["mark"])
         self.LabA = Label(text="Click to view curren coordinate!")
         self.btnA = Button(text = "Click!",on_press = self.getco)
-        self.feed = Button(text = "Feed back",on_press = self.pressf3)
+        self.feed = Button(text = "Feed back",on_press = self.pressf3,background_color =bgc["feed"])
 
     
         self.Grd.add_widget(self.LabA)
@@ -70,17 +86,17 @@ class GPS2Screen(Screen):
         super(GPS2Screen,self).__init__(**kwargs)
         self.Grd = GridLayout()
         self.Grd.cols = 1
-        self.inGrd = GridLayout(size_hint = (.2,None))
+        self.inGrd = GridLayout(size_hint = (1,1.2))
         self.inGrd.rows = 1
         self.ininGrd = GridLayout()
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'Click to get coordinate!')
-        self.btn2 = Button(text = 'Click to Directory menu!')
+        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=40,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["normal"])
+        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=40,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["mark"])
         self.Lab = Label(text ="Click to view 3D map")
         self.btt = Button(text = '3D Map!',on_press = self.getco)
-        self.feed = Button(text = 'Feed back',on_press = self.pressf3)
+        self.feed = Button(text = 'Feed back',on_press = self.pressf3,background_color =bgc["feed"])
 
         self.Grd.add_widget(self.Lab)
         self.Grd.add_widget(self.ininGrd)
@@ -113,17 +129,17 @@ class GPS3Screen(Screen):
         super(GPS3Screen,self).__init__(**kwargs)
         self.Grd = GridLayout()
         self.Grd.cols = 1
-        self.inGrd = GridLayout(size_hint = (.2,None))
+        self.inGrd = GridLayout(size_hint = (1,1.2))
         self.inGrd.rows = 1
         self.ininGrd = GridLayout()
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'Click to get coordinate!')
-        self.btn2 = Button(text = 'Click to 3D menu!')
+        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["normal"])
+        self.btn2 = Button(text = 'แสดง3D',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["3D"])
         self.btt = Button(text = 'directory to target!',on_press = self.getco)
         self.Lab = Label(text = 'Ckick to directory to target')
-        self.feed = Button(text = 'Feed back',on_press = self.pressf3)
+        self.feed = Button(text = 'Feed back',on_press = self.pressf3,background_color =bgc["feed"])
 
         self.Grd.add_widget(self.Lab)
         
@@ -156,6 +172,7 @@ class GPS3Screen(Screen):
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 class Feedback(Screen):
+    
     def __init__(self,**kwargs):
         super(Feedback,self).__init__(**kwargs)
         self.Grd = GridLayout()
@@ -195,4 +212,6 @@ class IntelligenceStaffApp(App):
 
         return ms
 
-IntelligenceStaffApp().run()  
+
+IntelligenceStaffApp().run()
+  
