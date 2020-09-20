@@ -21,19 +21,11 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from plyer import notification
 from plyer import vibrator
+
 bgc = {"normal":[1,.50,.50,1],"3D":[.5, 1,.5,0.7],"mark":[.3,.3,1,1],"feed":[1, .5, 0, 1]}
 class MScreen(ScreenManager):
     def __init__(self, **kwargs):
         super(MScreen, self).__init__(**kwargs)
-    def call(self,instance):
-        
-        self.worksheet =sheet.get_worksheet(0)
-        self.check = self.worksheet.cell(6,6).value
-        if self.check == "1":
-            notification.notify(title = "Warning",message ="ผู้ใช้ไม้เท้ากำลังเดือดร้อนเข้าไปกดเพื่อดูตำแหน่ง",timeout=5)
-            vibrator.vibrate(2)
-    def work(self,instance):
-        Clock(self.call,10)
 import time
 
 class GPS1Screen(Screen):
@@ -70,8 +62,8 @@ class GPS1Screen(Screen):
         self.btn2.bind(on_press = self.pressf2)
     def getco(self,instance):
         self.worksheet =sheet.get_worksheet(0)
-        self.Lat = self.worksheet.cell(6,5).value
-        self.Lng = self.worksheet.cell(7,5).value
+        self.Lat = self.worksheet.cell(6,11).value
+        self.Lng = self.worksheet.cell(7,11).value
         webbrowser.open(f"https://www.google.co.th/maps/@{self.Lat},{self.Lng},17.25z")
     def pressf(self,*args):
         self.manager.current = 'gps2'
@@ -114,8 +106,8 @@ class GPS2Screen(Screen):
         self.btn2.bind(on_press = self.pressf2)
     def getco(self,instance):
         self.worksheet =sheet.get_worksheet(0)
-        self.Lat = self.worksheet.cell(6,5).value
-        self.Lng = self.worksheet.cell(7,5).value
+        self.Lat = self.worksheet.cell(6,11).value
+        self.Lng = self.worksheet.cell(7,11).value
         webbrowser.open(f"https://www.google.co.th/maps/@{self.Lat},{self.Lng},1000m/data=!3m1!1e3")
     def pressf(self,*args):
         self.manager.current = 'gps1'
@@ -158,8 +150,8 @@ class GPS3Screen(Screen):
         self.btn2.bind(on_press = self.pressf2)
     def getco(self,instance):
         self.worksheet =sheet.get_worksheet(0)
-        self.Lat = self.worksheet.cell(6,5).value
-        self.Lng = self.worksheet.cell(7,5).value
+        self.Lat = self.worksheet.cell(6,11).value
+        self.Lng = self.worksheet.cell(7,11).value
         print(self.Lat)
         webbrowser.open(f"https://www.google.co.th/maps/dir/_/{self.Lat},{self.Lng}")
     def pressf(self,*args):
@@ -211,6 +203,15 @@ class IntelligenceStaffApp(App):
         ms.add_widget(Feedback(name = 'Feed'))
 
         return ms
+    def call(self,instance):
+        
+        self.worksheet =sheet.get_worksheet(0)
+        self.check = self.worksheet.cell(8,11).value
+        if self.check == "1":
+            notification.notify(title = "Warning",message ="ผู้ใช้ไม้เท้ากำลังเดือดร้อนเข้าไปกดเพื่อดูตำแหน่ง",timeout=5)
+            vibrator.vibrate(2)
+    def work(self,instance):
+        Clock(self.call,10)
 
 
 IntelligenceStaffApp().run()
