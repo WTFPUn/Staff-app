@@ -20,12 +20,15 @@ LabelBase.register(name= "angsana",fn_regular="angsana.ttc")
 from kivy.core.window import Window
 from kivy.clock import Clock
 from plyer import notification
-from plyer import vibrator
+Window.clearcolor = (1, 1, 1, 0.2)
 
 bgc = {"normal":[1,.50,.50,1],"3D":[.5, 1,.5,0.7],"mark":[.3,.3,1,1],"feed":[1, .5, 0, 1]}
 class MScreen(ScreenManager):
     def __init__(self, **kwargs):
         super(MScreen, self).__init__(**kwargs)
+        
+    
+        
 import time
 
 class GPS1Screen(Screen):
@@ -39,11 +42,12 @@ class GPS1Screen(Screen):
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'แสดง3D',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["3D"])
-        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["mark"])
-        self.LabA = Label(text="Click to view curren coordinate!")
-        self.btnA = Button(text = "Click!",on_press = self.getco)
-        self.feed = Button(text = "Feed back",on_press = self.pressf3,background_color =bgc["feed"])
+
+        self.btn = Button(text = 'แสดง3D',font_name = "angsana",font_size=30,color = [255,255,255,1],background_color = bgc["3D"])
+        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=30,color = [255,255,255,1],background_color = bgc["mark"])
+        self.LabA = Label(text = 'คลิกเพื่อแสดงพิกัด',font_name = "angsana",font_size=30,color = [255,255,255,1])
+        self.btnA = Button(text = "แสดงพิกัด",on_press = self.getco,font_name = "angsana",font_size=30,color = [255,255,255,1])
+        self.feed = Button(text = "ให้คำแนะนำ\nรายงานปัญหา",on_press = self.pressf3,background_color =bgc["feed"],font_name = "angsana",font_size=30,color = [255,255,255,1])
 
     
         self.Grd.add_widget(self.LabA)
@@ -60,11 +64,15 @@ class GPS1Screen(Screen):
 
         self.btn.bind(on_press = self.pressf)
         self.btn2.bind(on_press = self.pressf2)
+        
     def getco(self,instance):
         self.worksheet =sheet.get_worksheet(0)
         self.Lat = self.worksheet.cell(6,11).value
         self.Lng = self.worksheet.cell(7,11).value
+        
+
         webbrowser.open(f"https://www.google.co.th/maps/@{self.Lat},{self.Lng},17.25z")
+        
     def pressf(self,*args):
         self.manager.current = 'gps2'
     def pressf2(self,*args):
@@ -84,11 +92,11 @@ class GPS2Screen(Screen):
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=40,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["normal"])
-        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=40,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["mark"])
-        self.Lab = Label(text ="Click to view 3D map")
-        self.btt = Button(text = '3D Map!',on_press = self.getco)
-        self.feed = Button(text = 'Feed back',on_press = self.pressf3,background_color =bgc["feed"])
+        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=30,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["normal"])
+        self.btn2 = Button(text = 'ไปหาเป้าหมาย',font_name = "angsana",font_size=30,color = [255,255,255,1],border =[10,10,10,10],background_color = bgc["mark"])
+        self.Lab = Label(text = 'คลิกเพื่อแสดงพิกัดแบบ3มิติ',font_name = "angsana",font_size=40,color = [255,255,255,1])
+        self.btt = Button(text = 'แสดงพิกัด3มิติ',font_name = "angsana",font_size=30,color = [255,255,255,1],on_press = self.getco)
+        self.feed = Button(text = 'ให้คำแนะนำ\nรายงานปัญหา',on_press = self.pressf3,background_color =bgc["feed"],font_name = "angsana",font_size=30,color = [255,255,255,1])
 
         self.Grd.add_widget(self.Lab)
         self.Grd.add_widget(self.ininGrd)
@@ -127,11 +135,11 @@ class GPS3Screen(Screen):
         self.ininGrd.cols= 3
         
 
-        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["normal"])
-        self.btn2 = Button(text = 'แสดง3D',font_name = "angsana",font_size=40,color = [255,255,255,1],background_color = bgc["3D"])
-        self.btt = Button(text = 'directory to target!',on_press = self.getco)
-        self.Lab = Label(text = 'Ckick to directory to target')
-        self.feed = Button(text = 'Feed back',on_press = self.pressf3,background_color =bgc["feed"])
+        self.btn = Button(text = 'แสดงพิกัดปกติ',font_name = "angsana",font_size=30,color = [255,255,255,1],background_color = bgc["normal"])
+        self.btn2 = Button(text = 'แสดง3D',font_name = "angsana",font_size=30,color = [255,255,255,1],background_color = bgc["3D"])
+        self.btt = Button(text = 'แสดงเส้นทางการเดินทาง',font_name = "angsana",font_size=30,color = [255,255,255,1],on_press = self.getco)
+        self.Lab = Label(text = 'คลิกเพื่อแสดงเส้นทางการเดินทาง',font_name = "angsana",font_size=30,color = [255,255,255,1])
+        self.feed = Button(text = 'ให้คำแนะนำ\nรายงานปัญหา',on_press = self.pressf3,background_color =bgc["feed"],font_name = "angsana",font_size=30,color = [255,255,255,1])
 
         self.Grd.add_widget(self.Lab)
         
@@ -194,24 +202,26 @@ class Feedback(Screen):
         self.manager.current = "gps1"
 
 
+
 class IntelligenceStaffApp(App):
     def build(self):
+        
+    
         ms = MScreen(transition=FadeTransition())
         ms.add_widget(GPS1Screen(name = 'gps1'))
         ms.add_widget(GPS2Screen(name = 'gps2'))
         ms.add_widget(GPS3Screen(name = 'gps3'))
         ms.add_widget(Feedback(name = 'Feed'))
+        Clock.schedule_interval(self.call,10)
 
         return ms
-    def call(self,instance):
-        
+    def call(self,instance):    
         self.worksheet =sheet.get_worksheet(0)
         self.check = self.worksheet.cell(8,11).value
         if self.check == "1":
             notification.notify(title = "Warning",message ="ผู้ใช้ไม้เท้ากำลังเดือดร้อนเข้าไปกดเพื่อดูตำแหน่ง",timeout=5)
-            vibrator.vibrate(2)
-    def work(self,instance):
-        Clock(self.call,10)
+            
+            
 
 
 IntelligenceStaffApp().run()
