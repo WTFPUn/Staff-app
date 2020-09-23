@@ -4,7 +4,7 @@
 title = MyfirststaffProject
 
 # (str) Package name
-package.name = myapp
+package.name = Kuy
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -13,7 +13,7 @@ package.domain = org.test
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json
+source.include_exts = py,png,jpg,kv,atlas,json,ttc
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -36,7 +36,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,gspread,oauth2client,plyer,encodings
+requirements = python3,kivy,gspread,oauth2client,httplib2,pyopenssl,google-auth-oauthlib,pyasn1,pyasn1-modules,rsa,requests,google-auth-httplib2,openssl,google-api-python-client,google-auth,credentials,oauth2,google,cachetools,urllib3,chardet,idna,requests_oauthlib,oauthlib ,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -88,8 +88,7 @@ fullscreen = 0
 #android.presplash_lottie = "path/to/lottie/file.json"
 
 # (list) Permissions
-android.permissions = INTERNET,VIBRATE
-
+android.permissions = INTERNET
 # (int) Target Android API, should be as high as possible.
 #android.api = 27
 
